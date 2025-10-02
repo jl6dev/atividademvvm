@@ -1,0 +1,30 @@
+package com.example.mvvmcontador.view
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import com.example.mvvmcontador.databinding.ActivityMainBinding
+import com.example.mvvmcontador.viewmodel.ContadorViewModel
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel: ContadorViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Observa mudanças no contador
+        viewModel.contador.observe(this, Observer { contador ->
+            binding.txtValor.text = contador.valor.toString()
+        })
+
+        // Botões
+        binding.btnMais.setOnClickListener { viewModel.incrementar() }
+        binding.btnMenos.setOnClickListener { viewModel.decrementar() }
+        binding.btnReset.setOnClickListener { viewModel.resetar() }
+    }
+}

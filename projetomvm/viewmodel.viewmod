@@ -1,0 +1,30 @@
+package com.example.mvvmcontador.viewmodel
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.mvvmcontador.model.Contador
+
+class ContadorViewModel : ViewModel() {
+
+    private val _contador = MutableLiveData(Contador())
+    val contador: LiveData<Contador> = _contador
+
+    fun incrementar() {
+        _contador.value?.let {
+            it.valor++
+            _contador.value = it.copy()
+        }
+    }
+
+    fun decrementar() {
+        _contador.value?.let {
+            it.valor--
+            _contador.value = it.copy()
+        }
+    }
+
+    fun resetar() {
+        _contador.value = Contador(0)
+    }
+}
